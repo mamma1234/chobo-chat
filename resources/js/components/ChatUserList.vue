@@ -14,7 +14,7 @@
 <script>
     export default {
         props: {
-            currentUser: { //current-user --> currentUser
+            currentUser: {
                 type: Number,
                 required: true
             }

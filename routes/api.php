@@ -19,9 +19,9 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::prefix('messages')->group(function(){
+    Route::get('/', 'MessageController@index');
     Route::post('/', 'MessageController@store');
-});
-
+ });
 
 Route::get('/users', 'UserController@index');
 
