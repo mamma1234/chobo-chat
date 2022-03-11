@@ -1937,6 +1937,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -1961,9 +1962,9 @@ __webpack_require__.r(__webpack_exports__);
     var _this = this;
 
     window.Echo["private"]('chats').listen('MessageSent', function (e) {
-      console.log(e);
-
-      _this.messages.push(e.message);
+      if (e.message.to === _this.currentUser && e.message.from === _this.chatWith) {
+        _this.messages.push(e.message);
+      }
     });
   },
   mounted: function mounted() {
@@ -2099,11 +2100,16 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
     currentUser: {
       type: Number,
       required: true
+    },
+    chatWith: {
+      type: Number,
+      required: false
     }
   },
   computed: {
@@ -25994,7 +26000,7 @@ var render = function () {
     { staticClass: "flex h-full" },
     [
       _c("ChatUserList", {
-        attrs: { "current-user": _vm.currentUser },
+        attrs: { "current-user": _vm.currentUser, "chat-with": _vm.chatWith },
         on: { updatedChatWith: _vm.updateChatWith },
       }),
       _vm._v(" "),
@@ -26074,7 +26080,10 @@ var render = function () {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    { staticClass: "flex-1" },
+    {
+      directives: [{ name: "chat-scroll", rawName: "v-chat-scroll" }],
+      staticClass: "flex-1 overflow-y-scroll",
+    },
     _vm._l(_vm.messages, function (message) {
       return _c("ChatMessage", { key: message.id, attrs: { message: message } })
     }),
@@ -26147,6 +26156,7 @@ var render = function () {
           key: user.id,
           staticClass:
             "p-2 border-b-2 border-gray-600 hover:bg-gray-300 cursor-pointer",
+          class: { "text-pink-500": _vm.chatWith === user.id },
           on: {
             click: function ($event) {
               return _vm.updateChatWith(user.id)

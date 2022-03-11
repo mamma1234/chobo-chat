@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Events\MessageSent;
 use App\Message;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class MessageController extends Controller
 {
@@ -17,6 +18,8 @@ class MessageController extends Controller
         ]);
 
         $message = Message::create($validated);
+
+        // Log::debug($message);
 
         MessageSent::dispatch($message);
 

@@ -9,10 +9,10 @@ use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
-
+use Illuminate\Support\Facades\Log;
 use App\Message;
 
-class MessageSent
+class MessageSent implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
@@ -25,6 +25,8 @@ class MessageSent
      */
     public function __construct(Message $message)
     {
+        Log::debug($message);
+
         $this->message = $message;
         $this->dontBroadcastToCurrentUser();
     }
@@ -36,6 +38,7 @@ class MessageSent
      */
     public function broadcastOn()
     {
+        // Log::debug('broadcastOn call..............');
         // return new PrivateChannel('channel-name');
         return new PrivateChannel('chats');
     }
