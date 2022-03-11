@@ -1,19 +1,51 @@
 <template>
     <div class="flex h-full">
-        <div class="w-1/5 border-r-2 border-solid border-gray-600">User list</div>
-        <div class="w-4/5 flex flex-col">
-            <div class="flex-1">Chat Area</div>
+        <ChatUserList
+            :current-user="currentUser"
+            @updatedChatWith="updateChatWith"
+        />
+
+        <div v-if="chatWith" class="w-4/5 flex flex-col">
+            <ChatArea />
             <div class="flex-initial p-2">
-                <input class="border-2 border-solid rounded border-gray-000 p-3 w-full" type="text">
+                <input class="border-2 border-solid rounded border-gray-600 w-full p-3" type="text">
             </div>
+        </div>
+        <div v-else class="p-3">
+            채팅 상대를 선택해주세요
         </div>
     </div>
 </template>
 
 <script>
+    import ChatUserList from './ChatUserList';
+    import ChatArea from './ChatArea';
     export default {
+        props: {
+            currentUser: {
+                type: Number,
+                required: true
+            }
+        },
+        components: {
+            ChatUserList,
+            ChatArea
+        },
+        data() {
+            return {
+                chatWith: null
+            }
+        },
         mounted() {
             console.log('Component mounted.')
+        },
+        methods: {
+            updateChatWith(value) {
+                this.chatWith = value;
+            }
         }
     }
 </script>
+
+<style>
+</style>
